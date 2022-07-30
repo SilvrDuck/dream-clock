@@ -27,6 +27,10 @@
     color: #f08410;
 }
 
+li {
+    margin-bottom: 1em;
+}
+
 /* Clock styles */
 .circle {
     fill: none;

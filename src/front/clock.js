@@ -8,7 +8,7 @@ async function runTheClock() {
     fetch('http://127.0.0.1:5000/get_data')
         .then((response) => response.json())
         .then((data) => {
-            turnHands(new Date(data.time));
+            turnHands(new Date(data.time), data.show_seconds);
             updateSchedule(data.schedule);
         })
 }
@@ -18,11 +18,12 @@ function updateSchedule(schedule) {
     ul.setAttribute('class','schedule_list');
 
     schedule.forEach((task) =>{
-        var text = task[0]
-        var is_current = task[1]
+        var time_text = task[0]
+        var text = task[1]
+        var is_current = task[2]
 
         var li = document.createElement('li');
-        li.innerHTML = text;
+        li.innerHTML = '<em>' + time_text + '</em> ' + text;
         ul.appendChild(li);
 
         if (is_current) {
@@ -33,7 +34,14 @@ function updateSchedule(schedule) {
     SCHEDULE.innerHTML = ul.outerHTML;
 }
 
-function turnHands(date) {
+function turnHands(date, show_seconds) {
+
+    if (show_seconds) {
+        SECONDHAND.style.display = "block";
+    } else {
+        SECONDHAND.style.display = "none";
+    }
+
     let hr = date.getHours();
     let min = date.getMinutes();
     let sec = date.getSeconds();    
@@ -49,7 +57,8 @@ function turnHands(date) {
     HOURHAND.style.transform = "rotate(" + hrPosition + "deg)";
     MINUTEHAND.style.transform = "rotate(" + minPosition + "deg)";
     SECONDHAND.style.transform = "rotate(" + secPosition + "deg)";
+    
 }
 
 
-var interval = setInterval(runTheClock, 1000);
+var interval = setInterval(runTheClock, 100);
