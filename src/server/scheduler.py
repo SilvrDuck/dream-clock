@@ -16,6 +16,7 @@ class Scheduler:
         The duration will be determined so that the list of task is over one hour."""
 
         self._number_of_hours_per_day = number_of_hours_per_day
+        self._max_total = self._number_of_hours_per_day * 60
         self._stretch_factor = self._get_stretch_factor(schedule)
         self._schedule = self._convert_durations_into_minutes(schedule)
 
@@ -25,7 +26,7 @@ class Scheduler:
         durations = list(zip(*schedule))[0]
         total_duration = sum(durations)
 
-        return self._number_of_hours_per_day * 60 / total_duration
+        return self._max_total / total_duration
 
     def _convert_durations_into_minutes(self, schedule: List[Tuple[float, str]]) -> List[Tuple[float, str, str]]:
         """Convert the durations into minutes"""
@@ -46,11 +47,17 @@ class Scheduler:
         """Add the start time to the task text"""
         hours_after_start = int(minutes_after_start / 60)
         minutes_after_hour = int(minutes_after_start % 60)
-        return time(hours_after_start, minutes_after_hour).strftime('%H:%M')
+
+        if self._number_of_hours_per_day <= 1:
+            strftime = "min %M"
+        else:
+            strftime = "%H:%M"
+
+        return time(hours_after_start, minutes_after_hour).strftime(strftime)
 
     def _get_task_index_for_minute(self, current_time: datetime) -> int:
         """Get the index of the task that should be done at a given minute"""
-        minutes = current_time.hour * 60 + current_time.minute
+        minutes = (current_time.hour * 60 + current_time.minute) % self._max_total
         acc = 0
         
         for i in range(len(self._schedule)):

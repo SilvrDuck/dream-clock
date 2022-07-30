@@ -1,15 +1,15 @@
 from datetime import time
 from flask import Flask
 import flask
-from schedule import Scheduler
+from scheduler import Scheduler
 from stretchable_clock import StretcheableClock
 
 app = Flask(__name__)
 
 
-HIDE_SECONDS = True
+SHOW_SECONDS = False
 NUMBER_OF_HOURS_PER_DAY = 12
-START_TIME = time(1, 0)
+START_TIME = time(11, 53)
 DAY_DURATION_IN_MINUTES = 45
 SCHEDULE = [
     (3, "Réveil / café"),
@@ -28,7 +28,7 @@ def get_time():
     schedule = scheduler.get_list_of_tasks(time)
 
     response = flask.jsonify(
-        {'time': time.isoformat(), "schedule": schedule, "hide_seconds": HIDE_SECONDS}
+        {'time': time.isoformat(), "schedule": schedule, "show_seconds": SHOW_SECONDS}
     )
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
