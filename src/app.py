@@ -8,19 +8,24 @@ app = Flask(__name__)
 
 
 SHOW_SECONDS = False
-NUMBER_OF_HOURS_PER_DAY = 12
-START_TIME = time(11, 53)
+ROUND_DISPLAYED_TIME = True
+
+NUMBER_OF_HOURS_PER_DAY = 24
+START_TIME = time(23, 53)
 DAY_DURATION_IN_MINUTES = 45
+SHIFT_SCHEDULE = 2
 SCHEDULE = [
     (3, "Réveil / café"),
     (8, "Horoscope"),
-    (16, "Shift de travail"),
+    (15, "Shift du matin"),
     (5, "Repas"),
-    (3, "Nuit de sommeil"),
+    (11, "Shift de l'après-midi"),
+    (3, "Sommeil"),
 ]
 
-clock = StretcheableClock(START_TIME, DAY_DURATION_IN_MINUTES / NUMBER_OF_HOURS_PER_DAY)
-scheduler = Scheduler(SCHEDULE, NUMBER_OF_HOURS_PER_DAY)
+
+clock = StretcheableClock(START_TIME, DAY_DURATION_IN_MINUTES, NUMBER_OF_HOURS_PER_DAY)
+scheduler = Scheduler(SCHEDULE, NUMBER_OF_HOURS_PER_DAY, SHIFT_SCHEDULE, ROUND_DISPLAYED_TIME)
 
 
 @app.route("/")

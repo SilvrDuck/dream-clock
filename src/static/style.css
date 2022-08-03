@@ -20,7 +20,7 @@
 .schedule_list {
     list-style-type: none;
     font-family: Helvetica, sans-serif;
-    font-size: 8vh;
+    font-size: 2em;
 }
 
 .current {
