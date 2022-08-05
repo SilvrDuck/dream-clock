@@ -7,12 +7,14 @@
     <title>CG Dreams</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}"  type="text/css" media="all">
     <script src="{{ url_for('static', filename = 'clock.js') }}"  defer></script>
+    <script src="{{ url_for('static', filename = 'fullscreen.js') }}"  defer></script>
 </head>
 
 <body>
   
 <main class="main">
-<table></table>
+<button onclick="openFullscreen();">Plein écran</button>
+<table id="fullscreenable">
 <tr>
     <td>
         <div class="clockbox">
